@@ -18,7 +18,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # REST API
+    path('api/', include('api.urls')),
+    # Custom apps
+    path('chart/', include('chart.urls')),
     path('connect/', include('connect.urls')),
-    path('etl/', include('etl.urls')),
-    path('chart/', include('chart.urls'))
+    path('etl/', include('etl.urls'))
 ]

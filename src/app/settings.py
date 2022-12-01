@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'app',
     'chart',
     'connect',
-    'etl'
+    'etl',
+        # REST API
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
