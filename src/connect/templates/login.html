@@ -5,4 +5,17 @@
 
 {% block contenu %}
     <h1>Login</h1>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="username_input">Nom d'utilisateur</label>
+            <input type="text" class="form-control" id="username_input" name="nom_utilisateur">
+        </div>
+        <div>
+            <label for="password_input">Mot de passe</label>
+            <input type="password" class="form-control" id="password_input" name="mot_de_passe">
+        </div>
+        <button type="submit">Connexion</button>
+    </form>
 {% endblock %}

@@ -11,7 +11,11 @@
     </head>
     <body>
         {% block navbar %}
-            <nav>navbar</nav>
+            <nav>
+                <a href="{% url 'etl' %}">Import</a>
+                <a href="{% url 'chart' %}">Graphiques</a>
+                <a href="{% url 'logout' %}">Déconnexion</a>
+            </nav>
         {% endblock %}
         
         {% block contenu %}
