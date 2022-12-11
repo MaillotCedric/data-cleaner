@@ -14,6 +14,7 @@ class UsersSerializer(serializers.ModelSerializer):
         return super(UsersSerializer, self).create(validated_data)
 
 class SalesByProductsSerializer(serializers.ModelSerializer):
+    stock_code = serializers.CharField()
     nb_ventes = serializers.IntegerField()
 
     class Meta:
