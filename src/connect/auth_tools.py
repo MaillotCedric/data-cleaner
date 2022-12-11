@@ -33,3 +33,14 @@ def utilisateur_existe(request):
         Boolean: ...
     """
     return utilisateur(request) is not None
+
+def utilisateur_deja_connecte(request):
+    """est-ce l'utilisateur est déjà connecté ?
+
+    Args:
+        request (Request): requête
+
+    Returns:
+        Boolean: ...
+    """
+    return request.user.is_authenticated

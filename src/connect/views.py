@@ -10,7 +10,11 @@ def index(request):
             return redirect("etl")
         return render(request, "login.html", {})
     else:
-        return render(request, "login.html", {})
+        if utilisateur_deja_connecte(request):
+            # etl.html est définie comme page d'accueil par défaut pour un utilisateur connecté
+            return render(request, "etl.html", {})
+        else:
+            return render(request, "login.html", {})
 
 def logout_utilisateur(request):
     logout(request) # on se déconnecte
