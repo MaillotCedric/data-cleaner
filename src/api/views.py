@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
-from .serializers import UsersSerializer, SalesByProductsSerializer, SalesByCountriesSerializer
+from .serializers import UsersSerializer, SalesByProductsSerializer, SalesByCountriesSerializer, SalesOfSerializer
 
 @api_view(["GET"])
 def get_utilisateurs(request):
@@ -67,5 +67,33 @@ def get_sales_by_countries(request):
 
     sales_by_countries = User.objects.raw(requeteSQL)
     serializer = SalesByCountriesSerializer(sales_by_countries, many=True)
+
+    return Response(serializer.data)
+
+@api_view(["GET"])
+def get_sales_of(request):
+    pays = request.query_params.get("pays", None)
+    top = request.query_params.get("top", None)
+    where = "WHERE country = '{}'".format(pays) if pays else ""
+    print(where)
+    limite = "LIMIT {}".format(top) if top else ""
+
+    requeteSQL = """
+        SELECT (1) AS id, country, stock_code, COUNT(*) as nb_ventes
+            FROM details_commande AS dc
+                INNER JOIN produit AS pr
+                    ON dc.stock_code_id = pr.id
+                INNER JOIN commande AS co
+                    ON dc.invoice_no_id = co.id
+                INNER JOIN pays AS pa
+                    ON co.country_id = pa.id
+                {}
+                GROUP BY (1), country, stock_code
+                ORDER BY country ASC
+                {};
+    """.format(where, limite)
+
+    sales_of = User.objects.raw(requeteSQL)
+    serializer = SalesOfSerializer(sales_of, many=True)
 
     return Response(serializer.data)
