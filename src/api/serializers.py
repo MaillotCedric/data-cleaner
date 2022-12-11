@@ -19,3 +19,11 @@ class SalesByProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Details_commande
         fields = ["stock_code", "nb_ventes"]
+
+class SalesByCountriesSerializer(serializers.ModelSerializer):
+    country = serializers.CharField()
+    nb_ventes = serializers.IntegerField()
+
+    class Meta:
+        model = Details_commande
+        fields = ["country", "nb_ventes"]
