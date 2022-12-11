@@ -34,11 +34,11 @@ def get_sales_by_products(request):
     limite = "LIMIT {}".format(top) if top else ""
 
     requeteSQL = """
-        SELECT (1) AS id, stock_code_id, stock_code, count(*) AS nb_ventes
+        SELECT (1) AS id, stock_code, COUNT(*) AS nb_ventes
             FROM details_commande AS dc
-            INNER JOIN produit AS pr
-                ON dc.stock_code_id = pr.id
-            GROUP BY (1), stock_code_id, stock_code
+                INNER JOIN produit AS pr
+                    ON dc.stock_code_id = pr.id
+            GROUP BY (1), stock_code
             ORDER BY nb_ventes DESC
             {};
     """.format(limite)

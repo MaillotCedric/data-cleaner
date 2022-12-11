@@ -15,6 +15,7 @@ class UsersSerializer(serializers.ModelSerializer):
 
 class SalesByProductsSerializer(serializers.ModelSerializer):
     nb_ventes = serializers.IntegerField()
+
     class Meta:
         model = Details_commande
         fields = ["stock_code", "nb_ventes"]
