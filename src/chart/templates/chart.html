@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block contenu %}
     <h1>Graphiques</h1>
     <form id="btn_ventes_produits" method="GET">
@@ -8,4 +10,8 @@
     <form id="btn_ventes_pays" method="GET">
         <button type="submit">Top 3 des pays de livraison</button>
     </form>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/chart.js' %}"></script>
 {% endblock %}
