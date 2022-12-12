@@ -87,10 +87,10 @@ def get_sales_of(request):
                     ON dc.invoice_no_id = co.id
                 INNER JOIN pays AS pa
                     ON co.country_id = pa.id
-                {}
-                GROUP BY (1), country, stock_code
-                ORDER BY country ASC
-                {};
+            {}
+            GROUP BY (1), country, stock_code
+            ORDER BY country ASC
+            {};
     """.format(where, limite)
 
     sales_of = User.objects.raw(requeteSQL)
