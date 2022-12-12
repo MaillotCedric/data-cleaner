@@ -97,3 +97,16 @@ def get_sales_of(request):
     serializer = SalesOfSerializer(sales_of, many=True)
 
     return Response(serializer.data)
+
+@api_view(["GET"])
+def get_countries(request):
+    requeteSQL = """
+        SELECT *
+            FROM pays
+            ORDER BY country ASC;
+    """
+
+    countries = User.objects.raw(requeteSQL)
+    serializer = CountriesSerializer(countries, many=True)
+
+    return Response(serializer.data)

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from etl.models import Details_commande
+from etl.models import *
 from django.contrib.auth.hashers import make_password
 
 class UsersSerializer(serializers.ModelSerializer):
@@ -37,3 +37,8 @@ class SalesOfSerializer(serializers.ModelSerializer):
     class Meta:
         model = Details_commande
         fields = ["country", "stock_code", "nb_ventes"]
+
+class CountriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pays
+        fields = ["country"]
