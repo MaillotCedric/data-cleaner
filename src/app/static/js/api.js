@@ -29,6 +29,6 @@ function ajouter_ajax_call(element_id, methode, ajax_url, donnees={}, success_ca
     $(document).on('submit', element_id, function(event){
         event.preventDefault();
     
-        ajax_call(methode, ajax_url, donnees, success_callback, error_callback); 
+        ajax_call(methode, ajax_url, donnees, success_callback, error_callback);
     });
 };
