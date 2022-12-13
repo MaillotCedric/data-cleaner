@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from .auth_tools import *
-from etl.forms import UploadFileForm
 
 def index(request):
     if request.method == "POST":
@@ -12,10 +11,8 @@ def index(request):
         return render(request, "login.html", {})
     else:
         if utilisateur_deja_connecte(request):
-            form = UploadFileForm()
-
             # etl.html est définie comme page d'accueil par défaut pour un utilisateur connecté
-            return render(request, "etl.html", {"form": form})
+            return redirect("/etl")
         else:
             return render(request, "login.html", {})
 
