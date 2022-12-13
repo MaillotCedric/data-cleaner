@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from io import TextIOWrapper
 from .forms import UploadFileForm
+from .clean import nettoyer
 
 def render_etl(request):
     form = UploadFileForm()
@@ -16,6 +17,8 @@ def index(request):
         if form.is_valid():
             # encodage du fichier
             file = TextIOWrapper(request.FILES['fichier'], encoding="iso-8859-1", newline="")
+
+            nettoyer(file)
 
             return render(request, "etl.html", {"form": form})
         else:
