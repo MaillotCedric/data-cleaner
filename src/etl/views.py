@@ -18,6 +18,7 @@ def index(request):
             # encodage du fichier
             file = TextIOWrapper(request.FILES['fichier'], encoding="iso-8859-1", newline="")
 
+            # processus de nettoyage ( version 1 )
             nettoyer(file)
 
             return render(request, "etl.html", {"form": form})
