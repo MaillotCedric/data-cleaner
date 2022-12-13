@@ -2,4 +2,9 @@
 
 {% block contenu %}
     <h1>Import</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.fichier }}
+        <button id="btn_import_csv" type="submit">Importer</button>
+    </form>
 {% endblock %}
