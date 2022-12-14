@@ -64,6 +64,17 @@ def get_feedback_stock_codes(df, stock_codes_invalides, feedback):
         "pourcentage global": get_pourcentage(nombre_lignes, feedback)
     })
 
+def get_feedback_vouchers(df, feedback):
+    nombre_lignes = nombre_gifts(df)
+
+    feedback["etapes"].append({
+        "nom": "suppression des vouchers",
+        "critère": "StockCode commence par 'gift_'",
+        "nombre lignes supprimées": nombre_lignes,
+        "nombre lignes après suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
+        "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+    })
+
 def nettoyage(fichier):
     # --------------- variables -----------------------
     feedback = {
@@ -100,6 +111,13 @@ def nettoyage(fichier):
     # suppression
     for stock_code in stock_codes_invalides:
         df = without_produit(df, stock_code)
+    # -------------------------------------------------
+
+    # ------------ gestion des vouchers ---------------
+    # feedback
+    get_feedback_vouchers(df, feedback)
+    # suppression
+    df = without_gifts(df)
     # -------------------------------------------------
 
     return {
