@@ -14,7 +14,27 @@
 
         {% for element in etape %}
             <p>
-                <b>{{ element }} :</b> {{ etape | get_key:element }}
+                {% if element != "details" %}
+                    <b>{{ element }} :</b> {{ etape | get_key:element }}
+                {% else %}
+                    <b>{{ element }} :</b>
+                    <ul>
+                        {% for detail in etape.details %}
+                            <li>
+                                <b>{{ detail.stock_code }}</b>
+                                <p>
+                                    {% for elements_detail in detail %}
+                                        {% if elements_detail != "stock_code" %}
+                                            <p>
+                                                <b>{{ elements_detail }} :</b> {{ detail | get_key:elements_detail }}
+                                            </p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </p>
         {% endfor %}
     {% endfor %}
