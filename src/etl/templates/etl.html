@@ -2,9 +2,20 @@
 
 {% block contenu %}
     <h1>Import</h1>
+
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.fichier }}
         <button id="btn_import_csv" type="submit">Importer</button>
     </form>
+
+    {% for etape in feedback.etapes %}
+        <h2>Etape {{ forloop.counter }} :</h2>
+
+        {% for element in etape %}
+            <p>
+                <b>{{ element }} :</b> {{ etape | get_key:element }}
+            </p>
+        {% endfor %}
+    {% endfor %}
 {% endblock %}
