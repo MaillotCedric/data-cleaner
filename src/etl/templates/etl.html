@@ -9,6 +9,8 @@
         <button id="btn_import_csv" type="submit">Importer</button>
     </form>
 
+    <b>Nombre total enregistrements :</b> {{ feedback.nombre_enregistrements }}
+
     {% for etape in feedback.etapes %}
         <h2>Etape {{ forloop.counter }} :</h2>
 

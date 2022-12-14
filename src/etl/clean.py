@@ -1,7 +1,7 @@
 from .outils import *
 
 def get_pourcentage(nombre_lignes, feedback):
-    pourcentage_exact = (100 * nombre_lignes) / feedback["nombre enregistrements"]
+    pourcentage_exact = (100 * nombre_lignes) / feedback["nombre_enregistrements"]
 
     return formate(pourcentage_exact) if pourcentage_exact >= 0.01 else "0 %" if pourcentage_exact == 0 else "< 0.01 %"
 
@@ -67,7 +67,7 @@ def get_feedback_stock_codes(df, stock_codes_invalides, feedback):
 def nettoyage(fichier):
     # --------------- variables -----------------------
     feedback = {
-        "nombre enregistrements": 0,
+        "nombre_enregistrements": 0,
         "etapes": []
     }
     subset = ["InvoiceNo", "StockCode"]
@@ -78,7 +78,7 @@ def nettoyage(fichier):
     df = data_frame(fichier)
 
     # set nombre enregistrements
-    feedback["nombre enregistrements"] = df.shape[0]
+    feedback["nombre_enregistrements"] = df.shape[0]
     
     # ------------ gestion des doublons ---------------
     # feedback
