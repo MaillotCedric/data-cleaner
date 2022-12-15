@@ -75,6 +75,18 @@ def get_feedback_vouchers(df, feedback):
         "pourcentage global": get_pourcentage(nombre_lignes, feedback)
     })
 
+def get_feedback_pays(df, liste_pays, feedback):
+    pd_serie = mask_pays(df, liste_pays).value_counts()
+    nombre_lignes = pd_serie["autre"]
+
+    feedback["etapes"].append({
+        "nom": "regroupement des pays invalides sous un label `autre`",
+        "critère": "Country ne faisant pas partie de la liste des pays valides",
+        "nombre lignes modifiées": nombre_lignes,
+        "nombre lignes après modification": df.shape[0],
+        "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+    })
+
 def nettoyage(fichier):
     # --------------- variables -----------------------
     feedback = {
@@ -83,6 +95,43 @@ def nettoyage(fichier):
     }
     subset = ["InvoiceNo", "StockCode"]
     stock_codes_invalides = ["S", "POST", "M", "DOT", "D", "BANK CHARGES", "AMAZONFEE"]
+    liste_pays = [
+        "United Kingdom",
+        "Germany",
+        "France",
+        "EIRE",
+        "Netherlands",
+        "Spain",
+        "Belgium",
+        "Switzerland",
+        "Australia",
+        "Portugal",
+        "Norway",
+        "Cyprus",
+        "Italy",
+        "Finland",
+        "Japan",
+        "Hong Kong",
+        "Sweden",
+        "Poland",
+        "Denmark",
+        "Austria",
+        "Singapore",
+        "Iceland",
+        "Greece",
+        "Canada",
+        "Malta",
+        "Lebanon",
+        "Israel",
+        "Lithuania",
+        "Brazil",
+        "European Community",
+        "United Arab Emirates",
+        "USA",
+        "Bahrain",
+        "Czech Republic",
+        "Saudi Arabia"
+    ]
     # -------------------------------------------------
 
     # get data frame
@@ -118,6 +167,13 @@ def nettoyage(fichier):
     get_feedback_vouchers(df, feedback)
     # suppression
     df = without_gifts(df)
+    # -------------------------------------------------
+
+    # ------------ gestion des pays ---------------
+    # feedback
+    get_feedback_pays(df, liste_pays, feedback)
+    # modification
+    df.loc[~df["Country"].isin(liste_pays), "Country"] = "autre"
     # -------------------------------------------------
 
     return {
