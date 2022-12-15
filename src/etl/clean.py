@@ -87,6 +87,18 @@ def get_feedback_pays(df, liste_pays, feedback):
         "pourcentage global": get_pourcentage(nombre_lignes, feedback)
     })
 
+def get_feedback_dates(df, feedback):
+    nombre_lignes = nombre_nat(df)
+    print(nombre_lignes)
+
+    feedback["etapes"].append({
+        "nom": "suppression des ventes ayant un format de date invalide",
+        "critère": "InvoiceDate invalide",
+        "nombre lignes supprimées": nombre_lignes,
+        "nombre lignes après suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
+        "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+    })
+
 def nettoyage(fichier):
     # --------------- variables -----------------------
     feedback = {
@@ -174,6 +186,15 @@ def nettoyage(fichier):
     get_feedback_pays(df, liste_pays, feedback)
     # modification
     df.loc[~df["Country"].isin(liste_pays), "Country"] = "autre"
+    # -------------------------------------------------
+
+    # ------------ gestion des dates ---------------
+    # modification
+    df["InvoiceDate"] = pd.to_datetime(df["InvoiceDate"]) # reformatage des dates
+    # feedback
+    get_feedback_dates(df, feedback)
+    # suppression
+    df.dropna(subset=['InvoiceDate'], inplace = True)
     # -------------------------------------------------
 
     return {

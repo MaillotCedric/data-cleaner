@@ -65,4 +65,13 @@ def formate(pourcentage_lignes):
     return "{} %".format(round(pourcentage_lignes, 1))
 
 def est_nat(date):
-    return np.isnat(np.datetime64(str(date)))
+    return "nat" if np.isnat(np.datetime64(str(date))) else "date valide"
+
+def mask_nat(data_frame):
+    return data_frame["InvoiceDate"].map(est_nat)
+
+def nombre_nat(df):
+    try:
+        return mask_nat(df).value_counts()["nat"]
+    except:
+        return 0
