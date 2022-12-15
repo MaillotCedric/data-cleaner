@@ -86,7 +86,6 @@ def get_feedback_pays(df, liste_pays, feedback):
 
 def get_feedback_dates(df, feedback):
     nombre_lignes = nombre_nat(df)
-    print(nombre_lignes)
 
     feedback["etapes"].append({
         "nom": "suppression des ventes ayant un format de date invalide",
@@ -99,8 +98,9 @@ def get_feedback_dates(df, feedback):
 def nettoyage(fichier):
     # --------------- variables -----------------------
     feedback = {
-        "nombre_enregistrements": 0,
-        "etapes": []
+        "nombre_enregistrements": None,
+        "etapes": [],
+        "nombre_enregistrements_restants": None
     }
     subset = ["InvoiceNo", "StockCode"]
     stock_codes_invalides = ["S", "POST", "M", "DOT", "D", "BANK CHARGES", "AMAZONFEE"]
@@ -141,6 +141,7 @@ def nettoyage(fichier):
         "Czech Republic",
         "Saudi Arabia"
     ]
+    columns_to_drop = ["Description", "Quantity", "UnitPrice", "CustomerID"]
     # -------------------------------------------------
 
     # get data frame
@@ -193,6 +194,12 @@ def nettoyage(fichier):
     # suppression
     df.dropna(subset=['InvoiceDate'], inplace = True)
     # -------------------------------------------------
+
+    # ------- suppression des colonnes inutiles -------
+    df = df.drop(columns=columns_to_drop)
+
+    # récupération du nombre de lignes restantes après le nettoyage
+    feedback["nombre_enregistrements_restants"] = df.shape[0]
 
     return {
         "data_frame": df,
