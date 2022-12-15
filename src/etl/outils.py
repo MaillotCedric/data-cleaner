@@ -75,3 +75,21 @@ def nombre_nat(df):
         return mask_nat(df).value_counts()["nat"]
     except:
         return 0
+
+def nombre_doublons(df, subset):
+    try:
+        return mask_doublons(df, subset).value_counts()["doublon"]
+    except:
+        return 0
+
+def nombre_avoirs(df):
+    try:
+        return mask_avoirs(df).value_counts()["avoir"]
+    except:
+        return 0
+
+def nombre_pays_invalides(df, liste_pays):
+    try:
+        return mask_pays(df, liste_pays).value_counts()["autre"]
+    except:
+        return 0

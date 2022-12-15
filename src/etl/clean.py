@@ -9,8 +9,7 @@ def get_nb_lignes_apres_supp(df, nombre_lignes):
     return df.shape[0] - nombre_lignes
 
 def get_feedback_doublons(df, subset, feedback):
-    pd_serie = mask_doublons(df, subset).value_counts()
-    nombre_lignes = pd_serie["doublon"]
+    nombre_lignes = nombre_doublons(df, subset)
 
     feedback["etapes"].append({
         "nom": "suppression des doublons",
@@ -21,8 +20,7 @@ def get_feedback_doublons(df, subset, feedback):
     })
 
 def get_feedback_avoirs(df, feedback):
-    pd_serie = mask_avoirs(df).value_counts()
-    nombre_lignes = pd_serie["avoir"]
+    nombre_lignes = nombre_avoirs(df)
 
     feedback["etapes"].append({
         "nom": "suppression des avoirs",
@@ -76,8 +74,7 @@ def get_feedback_vouchers(df, feedback):
     })
 
 def get_feedback_pays(df, liste_pays, feedback):
-    pd_serie = mask_pays(df, liste_pays).value_counts()
-    nombre_lignes = pd_serie["autre"]
+    nombre_lignes = nombre_pays_invalides(df, liste_pays)
 
     feedback["etapes"].append({
         "nom": "regroupement des pays invalides sous un label `autre`",
