@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block contenu %}
     <h1>Import</h1>
 
@@ -8,6 +10,8 @@
         {{ form.fichier }}
         <button id="btn_import_csv" type="submit">Importer</button>
     </form>
+
+    <div id="loading_message"></div>
 
     <b>Nombre total enregistrements :</b> {{ feedback.nombre_enregistrements }}
 
@@ -42,4 +46,8 @@
     {% endfor %}
 
     <b>Nombre d'enregistrements restants :</b> {{ feedback.nombre_enregistrements_restants }}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/etl.js' %}"></script>
 {% endblock %}
