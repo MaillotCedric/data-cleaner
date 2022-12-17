@@ -37,7 +37,7 @@ def get_sales_by_products(request):
         SELECT (1) AS id, stock_code, COUNT(*) AS nb_ventes
             FROM details_commande AS dc
                 INNER JOIN produit AS pr
-                    ON dc.stock_code_id = pr.id
+                    ON dc.stock_code_id = pr.stock_code
             GROUP BY (1), stock_code
             ORDER BY nb_ventes DESC
             {};
@@ -57,9 +57,9 @@ def get_sales_by_countries(request):
         SELECT (1) AS id, country, COUNT(*) AS nb_ventes
             FROM details_commande AS dc
                 INNER JOIN commande AS co
-                    ON dc.invoice_no_id = co.id
+                    ON dc.invoice_no_id = co.invoice_no
                 INNER JOIN pays AS pa
-                    ON co.country_id = pa.id
+                    ON co.country_id = pa.country
             GROUP BY (1), country
             ORDER BY nb_ventes DESC
             {};
@@ -82,11 +82,11 @@ def get_sales_of(request):
         SELECT (1) AS id, country, stock_code, COUNT(*) as nb_ventes
             FROM details_commande AS dc
                 INNER JOIN produit AS pr
-                    ON dc.stock_code_id = pr.id
+                    ON dc.stock_code_id = pr.stock_code
                 INNER JOIN commande AS co
-                    ON dc.invoice_no_id = co.id
+                    ON dc.invoice_no_id = co.invoice_no
                 INNER JOIN pays AS pa
-                    ON co.country_id = pa.id
+                    ON co.country_id = pa.country
             {}
             GROUP BY (1), country, stock_code
             ORDER BY country ASC
@@ -101,7 +101,7 @@ def get_sales_of(request):
 @api_view(["GET"])
 def get_countries(request):
     requeteSQL = """
-        SELECT *
+        SELECT (1) AS id, *
             FROM pays
             ORDER BY country ASC;
     """
