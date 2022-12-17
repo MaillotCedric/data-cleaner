@@ -30,7 +30,7 @@ def index(request):
             # processus de nettoyage ( version 1 )
             resultat = nettoyage(file)
 
-            return render(request, "etl.html", {"form": form, "feedback": resultat["feedback"]})
+            return render(request, "etl.html", {"form": form, "feedback": resultat["feedback"], "import_bdd": True})
         else:
             return render_etl(request)
     else:

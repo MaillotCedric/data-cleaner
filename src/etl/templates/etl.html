@@ -12,6 +12,9 @@
     </form>
 
     <div id="loading_message"></div>
+    {% if import_bdd %}
+        <button id="btn_import_bdd">Importer en base de données</button>
+    {% endif %}
 
     <b>Nombre total enregistrements :</b> {{ feedback.nombre_enregistrements }}
 
