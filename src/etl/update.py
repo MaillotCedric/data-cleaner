@@ -21,10 +21,32 @@ def add_pays(bdd_engine):
 
     bdd_engine.execute(requete)
 
+def add_produits(bdd_engine):
+    produits_df_nettoyes = """
+        SELECT stock_code
+            FROM df_nettoye
+    """
+    produits_bdd = """
+        SELECT stock_code
+            FROM produit
+    """
+    new_produits = """
+        SELECT stock_code FROM ({}) AS produits_df_nettoyes
+        EXCEPT
+        SELECT stock_code FROM ({}) AS produits_bdd
+    """.format(produits_df_nettoyes, produits_bdd)
+    requete = """
+        INSERT INTO produit (stock_code)
+        SELECT stock_code FROM ({}) AS new_produits;
+    """.format(new_produits)
+
+    bdd_engine.execute(requete)
+
 def update_bdd():
     bdd_engine = get_engine()
     # ajouter pays
     add_pays(bdd_engine)
     # ajouter produits
+    add_produits(bdd_engine)
     # ajouter commandes
     # ajouter details commandes
