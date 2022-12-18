@@ -63,6 +63,27 @@ def add_commandes(bdd_engine):
 
     bdd_engine.execute(requete)
 
+def add_details_commandes(bdd_engine):
+    details_commandes_df_nettoyes = """
+        SELECT invoice_date, invoice_no, stock_code
+            FROM df_nettoye
+    """
+    details_commandes_bdd = """
+        SELECT invoice_date, invoice_no_id, stock_code_id
+            FROM details_commande
+    """
+    new_details_commandes = """
+        SELECT invoice_date, invoice_no, stock_code FROM ({}) AS details_commandes_df_nettoyes
+        EXCEPT
+        SELECT invoice_date, invoice_no_id, stock_code_id FROM ({}) AS details_commandes_bdd
+    """.format(details_commandes_df_nettoyes, details_commandes_bdd)
+    requete = """
+        INSERT INTO details_commande (invoice_date, invoice_no_id, stock_code_id)
+        SELECT invoice_date, invoice_no, stock_code FROM ({}) AS new_details_commandes;
+    """.format(new_details_commandes)
+
+    bdd_engine.execute(requete)
+
 def update_bdd():
     bdd_engine = get_engine()
     # ajouter pays
@@ -72,3 +93,4 @@ def update_bdd():
     # ajouter commandes
     add_commandes(bdd_engine)
     # ajouter details commandes
+    add_details_commandes(bdd_engine)
