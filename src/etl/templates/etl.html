@@ -13,7 +13,7 @@
 
     <div id="loading_message"></div>
     {% if import_bdd %}
-        <button id="btn_import_bdd">Importer en base de données</button>
+        <a href="{% url 'add_bdd' %}">Importer en base de données</a>
     {% endif %}
 
     <b>Nombre total enregistrements :</b> {{ feedback.nombre_enregistrements }}
