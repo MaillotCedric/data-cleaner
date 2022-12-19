@@ -59,10 +59,74 @@ function draw_chart_produits(produits) {
     });
 };
 
+function draw_chart_pays_produits(produits) {
+    let ctx_pays_produits = document.getElementById("chart_top_pays_produits");
+    let pays_selectionne = produits[0].country;
+
+    new Chart(ctx_pays_produits, {
+        type: 'bar',
+        data: {
+            datasets: [{
+                data: produits,
+                backgroundColor: background_colors
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "produits",
+                        font: {
+                            size: 14,
+                            weight: "bold"
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "nombre de ventes",
+                        font: {
+                            size: 14,
+                            weight: "bold"
+                        }
+                    }
+                }
+            },
+            parsing: {
+                xAxisKey: "stock_code",
+                yAxisKey: "nb_ventes"
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: "Top 10 des produits les plus vendus pour " + pays_selectionne,
+                    position: "top",
+                    font: {
+                        size: 16,
+                        weight: "bold"
+                    },
+                    color: "black"
+                }
+            }
+        }
+    });
+};
+
+function click_on_bar(pointer) {
+    return pointer.length !== 0;
+};
+
 function draw_chart_pays(pays) {
     let ctx_pays = document.getElementById("chart_top_pays");
 
-    new Chart(ctx_pays, {
+    let my_chart = new Chart(ctx_pays, {
         type: 'bar',
         data: {
             datasets: [{
@@ -114,6 +178,19 @@ function draw_chart_pays(pays) {
                     },
                     color: "black"
                 }
+            },
+            onClick(event) {
+                let intersection = {
+                    intersect: true
+                };
+                let pointer = my_chart.getElementsAtEventForMode(event, 'nearest', intersection, false);
+            
+                if (click_on_bar(pointer)) {
+                    let index = pointer[0].index;
+                    let pays_selectionne = pays[index].country; 
+
+                    ajax_call("GET", "../api/sales_of?pays="+ pays_selectionne +"&top=10&format=json", donnees={}, success_callback=update_chart_pays_produits, error_callback=afficher_error);
+                };
             }
         }
     });
@@ -149,6 +226,13 @@ function update_chart_pays(json) {
 
         draw_chart_pays(json)
     }
+};
+
+function update_chart_pays_produits(json) {
+    let chart_container = document.getElementById("chart_container_top_pays_produits");
+
+    update_chart_container(chart_container, "<canvas id='chart_top_pays_produits'></canvas>");
+    draw_chart_pays_produits(json);
 };
 
 // afficher le top 10 des produits vendus (graph. affiché par défaut)

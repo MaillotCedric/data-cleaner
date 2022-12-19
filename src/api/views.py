@@ -79,7 +79,7 @@ def get_sales_of(request):
     limite = "LIMIT {}".format(top) if top else ""
 
     requeteSQL = """
-        SELECT (1) AS id, country, stock_code, COUNT(*) as nb_ventes
+        SELECT (1) AS id, country, stock_code, COUNT(*) AS nb_ventes
             FROM details_commande AS dc
                 INNER JOIN produit AS pr
                     ON dc.stock_code_id = pr.stock_code
@@ -89,7 +89,7 @@ def get_sales_of(request):
                     ON co.country_id = pa.country
             {}
             GROUP BY (1), country, stock_code
-            ORDER BY country ASC
+            ORDER BY nb_ventes DESC
             {};
     """.format(where, limite)
 
