@@ -7,23 +7,24 @@
 {% endblock %}
 
 {% block contenu %}
-    <h1>Graphiques</h1>
-    <div id="chart_container_top_produits" class="chart_container"></div>
-    <div id="chart_container_top_pays" class="chart_container"></div>
-    <div id="chart_container_top_pays_produits" class="chart_container">
-        Aucun pays selectionné
+    <div class="container_contenu">
+        <div id="chart_container_top_produits" class="chart_container"></div>
+        <div id="chart_container_top_pays" class="chart_container"></div>
+        <div id="chart_container_top_pays_produits" class="chart_container">
+            Aucun pays selectionné
+        </div>
+        <!-- <form id="btn_ventes_produits" method="GET">
+            <button type="submit">Top 3 des produits vendus</button>
+        </form> -->
+        <!-- <form id="btn_ventes_pays" method="GET">
+            <button type="submit">Top 3 des pays de livraison</button>
+        </form> -->
+        <!-- <form id="btn_ventes_pays_produits" method="GET">
+            <span>Top 3 des produits les plus vendus en/au </span>
+            <select name="pays" id="select_pays"></select>
+            <button type="submit">GET</button>
+        </form> -->
     </div>
-    <!-- <form id="btn_ventes_produits" method="GET">
-        <button type="submit">Top 3 des produits vendus</button>
-    </form> -->
-    <!-- <form id="btn_ventes_pays" method="GET">
-        <button type="submit">Top 3 des pays de livraison</button>
-    </form> -->
-    <!-- <form id="btn_ventes_pays_produits" method="GET">
-        <span>Top 3 des produits les plus vendus en/au </span>
-        <select name="pays" id="select_pays"></select>
-        <button type="submit">GET</button>
-    </form> -->
 {% endblock %}
 
 {% block scripts %}
