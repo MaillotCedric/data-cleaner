@@ -8,13 +8,16 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.fichier }}
-        <button id="btn_import_csv" type="submit">Importer</button>
+        <button id="btn_import_csv" type="submit" name="import_fichier">Importer</button>
     </form>
 
     <div id="loading_message"></div>
     {% if import_bdd %}
         <p>
-            <a id="btn_import_bdd" href="{% url 'add_bdd' %}">Importer en base de données</a>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <button id="btn_import_bdd" type="submit" name="import_bdd">Importer en base de données</button>
+            </form>
         </p>
     {% endif %}
 

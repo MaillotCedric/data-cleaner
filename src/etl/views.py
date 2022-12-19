@@ -22,7 +22,8 @@ def render_etl(request):
 
 @login_required(login_url="login")
 def index(request):
-    if request.method == "POST":
+    # import du fichier csv (phase pre-nettoyage)
+    if request.method == "POST" and 'import_fichier' in request.POST:
         form = UploadFileForm(request.POST, request.FILES)
 
         if form.is_valid():
@@ -42,10 +43,10 @@ def index(request):
             return render(request, "etl.html", {"form": form, "feedback": resultat["feedback"], "import_bdd": True})
         else:
             return render_etl(request)
+    # import en bdd (phase post-nettoyage)
+    elif request.method == "POST" and 'import_bdd' in request.POST:
+        update_bdd()
+
+        return render_etl(request)
     else:
         return render_etl(request)
-
-def add_bdd(request):
-    update_bdd()
-
-    return redirect("etl")
