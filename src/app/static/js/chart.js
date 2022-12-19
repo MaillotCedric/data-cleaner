@@ -1,3 +1,53 @@
+let background_colors = ["#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#A65628", "#F781BF"];
+
+function draw_chart_produits(produits) {
+    let ctx = document.getElementById("chart_top_produits");
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            datasets: [{
+                data: produits,
+                backgroundColor: background_colors
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            parsing: {
+                xAxisKey: "stock_code",
+                yAxisKey: "nb_ventes"
+            }
+        }
+    });
+};
+
+function aucune_donnee(json) {
+    return json.length === 0;
+};
+
+function update_chart_container(container, html) {
+    container.innerHTML = html;
+};
+
+function update_chart_produits(json) {
+    let chart_container = document.getElementById("chart_container_top_produits");
+
+    if (aucune_donnee(json)) {
+        update_chart_container(chart_container, "Aucun produits")
+    } else {
+        update_chart_container(chart_container, "<canvas id='chart_top_produits'></canvas>")
+
+        draw_chart_produits(json)
+    }
+};
+
+// afficher le top 10 des produits vendus (graph. affiché par défaut)
+ajax_call("GET", "../api/sales_by_products?top=10&format=json", donnees={}, success_callback=update_chart_produits, error_callback=afficher_error);
+
 // Populate select with countries names
 $.ajax({
     type: "GET",

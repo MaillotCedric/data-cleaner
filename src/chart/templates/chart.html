@@ -2,11 +2,16 @@
 
 {% load static %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/chart.css' %}">
+{% endblock %}
+
 {% block contenu %}
     <h1>Graphiques</h1>
-    <form id="btn_ventes_produits" method="GET">
+    <div id="chart_container_top_produits" class="chart_container"></div>
+    <!-- <form id="btn_ventes_produits" method="GET">
         <button type="submit">Top 3 des produits vendus</button>
-    </form>
+    </form> -->
     <form id="btn_ventes_pays" method="GET">
         <button type="submit">Top 3 des pays de livraison</button>
     </form>
