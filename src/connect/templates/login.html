@@ -1,21 +1,36 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
 <!-- Aucune barre de navigation sur cette page -->
 {% block navbar %}{% endblock %}
 
 {% block contenu %}
-    <h1>Login</h1>
-
-    <form action="" method="POST">
-        {% csrf_token %}
-        <div>
-            <label for="username_input">Nom d'utilisateur</label>
-            <input type="text" class="form-control" id="username_input" name="nom_utilisateur">
+    <div id="login_container">
+        <div class="card position-absolute top-50 start-50 translate-middle">
+            <div class="card-header text-center">
+                Login
+            </div>        
+            <div class="card-body">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div>
+                        <label class="form-label" for="username_input">Nom d'utilisateur</label>
+                        <input type="text" class="form-control" id="username_input" name="nom_utilisateur">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="password_input">Mot de passe</label>
+                        <input type="password" class="form-control" id="password_input" name="mot_de_passe">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Connexion</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div>
-            <label for="password_input">Mot de passe</label>
-            <input type="password" class="form-control" id="password_input" name="mot_de_passe">
-        </div>
-        <button type="submit">Connexion</button>
-    </form>
+    </div>
 {% endblock %}
