@@ -13,10 +13,17 @@
 
     <div id="loading_message"></div>
     {% if import_bdd %}
-        <a href="{% url 'add_bdd' %}">Importer en base de données</a>
+        <p>
+            <a id="btn_import_bdd" href="{% url 'add_bdd' %}">Importer en base de données</a>
+        </p>
     {% endif %}
 
-    <b>Nombre total enregistrements :</b> {{ feedback.nombre_enregistrements }}
+    {% if feedback %}
+        <p>
+            <b>Nombre total enregistrements :</b> {{ feedback.nombre_enregistrements }}
+        </p>
+        <hr>
+    {% endif %}
 
     {% for etape in feedback.etapes %}
         <h2>Etape {{ forloop.counter }} :</h2>
@@ -48,7 +55,10 @@
         {% endfor %}
     {% endfor %}
 
-    <b>Nombre d'enregistrements restants :</b> {{ feedback.nombre_enregistrements_restants }}
+    {% if feedback %}
+        <hr>
+        <b>Nombre d'enregistrements restants :</b> {{ feedback.nombre_enregistrements_restants }}
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}
