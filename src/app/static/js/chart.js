@@ -59,6 +59,66 @@ function draw_chart_produits(produits) {
     });
 };
 
+function draw_chart_pays(pays) {
+    let ctx_pays = document.getElementById("chart_top_pays");
+
+    new Chart(ctx_pays, {
+        type: 'bar',
+        data: {
+            datasets: [{
+                data: pays,
+                backgroundColor: background_colors
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "pays",
+                        font: {
+                            size: 14,
+                            weight: "bold"
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "nombre de ventes",
+                        font: {
+                            size: 14,
+                            weight: "bold"
+                        }
+                    },
+                    type: "logarithmic"
+                }
+            },
+            parsing: {
+                xAxisKey: "country",
+                yAxisKey: "nb_ventes"
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: "Top 10 des pays de livraison",
+                    position: "top",
+                    font: {
+                        size: 16,
+                        weight: "bold"
+                    },
+                    color: "black"
+                }
+            }
+        }
+    });
+};
+
 function aucune_donnee(json) {
     return json.length === 0;
 };
@@ -79,8 +139,23 @@ function update_chart_produits(json) {
     }
 };
 
+function update_chart_pays(json) {
+    let chart_container = document.getElementById("chart_container_top_pays");
+
+    if (aucune_donnee(json)) {
+        update_chart_container(chart_container, "Aucun pays")
+    } else {
+        update_chart_container(chart_container, "<canvas id='chart_top_pays'></canvas>")
+
+        draw_chart_pays(json)
+    }
+};
+
 // afficher le top 10 des produits vendus (graph. affiché par défaut)
 ajax_call("GET", "../api/sales_by_products?top=10&format=json", donnees={}, success_callback=update_chart_produits, error_callback=afficher_error);
+
+// afficher le top 10 des pays de livraison
+ajax_call("GET", "../api/sales_by_countries?top=10&format=json", donnees={}, success_callback=update_chart_pays, error_callback=afficher_error);
 
 // Populate select with countries names
 // $.ajax({
