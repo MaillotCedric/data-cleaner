@@ -193,6 +193,9 @@ def nettoyage(fichier):
     get_feedback_dates(df, feedback)
     # suppression
     df.dropna(subset=['InvoiceDate'], inplace = True)
+    # nouveau reformatage des date au format yyy-mm-dd
+    # => équivalence de format entre les dates présentes au niveau du dataframe et celles présentes en bdd
+    df["InvoiceDate"] = df["InvoiceDate"].dt.date
     # -------------------------------------------------
 
     # ------- suppression des colonnes inutiles -------
