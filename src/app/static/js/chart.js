@@ -13,13 +13,47 @@ function draw_chart_produits(produits) {
         },
         options: {
             scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "produits",
+                        font: {
+                            size: 14,
+                            weight: "bold"
+                        }
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "nombre de ventes",
+                        font: {
+                            size: 14,
+                            weight: "bold"
+                        }
+                    }
                 }
             },
             parsing: {
                 xAxisKey: "stock_code",
                 yAxisKey: "nb_ventes"
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: "Top 10 des produits les plus vendus",
+                    position: "top",
+                    font: {
+                        size: 16,
+                        weight: "bold"
+                    },
+                    color: "black"
+                }
             }
         }
     });
