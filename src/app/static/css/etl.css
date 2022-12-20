@@ -1,0 +1,9 @@
+#loading_modal > div {
+    height: 100%;
+}
+
+#loading_message {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
