@@ -29,55 +29,114 @@
                 </button>
             </div>
         </form>
-        {% if import_bdd %}
+        <!-- {% if import_bdd %}
             <p>
                 <form action="" method="POST">
                     {% csrf_token %}
                     <button id="btn_import_bdd" type="submit" name="import_bdd">Importer en base de données</button>
                 </form>
             </p>
-        {% endif %}
+        {% endif %} -->
+        <hr>
+        <!-- <p class="h3 mb-4">Rapport de nettoyage</p>
+        <div class="mb-2">
+            Nombre d'enregistrement initial : <span class="badge text-bg-success">000000</span>
+        </div>
+        <div class="mb-4">
+            Nombre d'enregistrement final : <span class="badge text-bg-danger">000000</span>
+        </div> -->
 
+        <!-- <ol class="list-group list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                <div class="fw-bold">
+                    Subheading
+                    <i class="bi bi-zoom-in icone_detail text-success"></i>
+                </div>
+                Content for list item
+                </div>
+                <span class="badge bg-danger rounded-pill">- 234</span>
+            </li>
+        </ol> -->
         {% if feedback %}
-            <p>
+            <!-- <p>
                 <b>Nombre total enregistrements :</b> {{ feedback.nombre_enregistrements }}
             </p>
-            <hr>
+            <hr> -->
+            <p class="h3 mb-4">Rapport de nettoyage</p>
+            <div class="mb-2">
+                Nombre d'enregistrement initial : <span class="badge text-bg-success">{{ feedback.nombre_enregistrements }}</span>
+            </div>
+            <div class="mb-4">
+                Nombre d'enregistrement final : <span class="badge text-bg-danger">{{ feedback.nombre_enregistrements_restants }}</span>
+            </div>
         {% endif %}
 
-        {% for etape in feedback.etapes %}
-            <h2>Etape {{ forloop.counter }} :</h2>
+        <ol class="list-group list-group-numbered">
+            {% for etape in feedback.etapes %}
+                <!-- <h2>Etape {{ forloop.counter }} :</h2>
 
-            {% for element in etape %}
-                <p>
-                    {% if element != "details" %}
-                        <b>{{ element }} :</b> {{ etape | get_key:element }}
+                {% for element in etape %}
+                    <p>
+                        {% if element != "details" %}
+                            <b>{{ element }} :</b> {{ etape | get_key:element }}
+                        {% else %}
+                            <b>{{ element }} :</b>
+                            <ul>
+                                {% for detail in etape.details %}
+                                    <li>
+                                        <b>{{ detail.stock_code }}</b>
+                                        <p>
+                                            {% for elements_detail in detail %}
+                                                {% if elements_detail != "stock_code" %}
+                                                    <p>
+                                                        <b>{{ elements_detail }} :</b> {{ detail | get_key:elements_detail }}
+                                                    </p>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </p>
+                {% endfor %} -->
+                {% if forloop.counter != 5 %}
+                <li class="list-group-item list-group-item-danger d-flex justify-content-between align-items-start">
+                {% else %}
+                <li class="list-group-item list-group-item-warning d-flex justify-content-between align-items-start">
+                {% endif %}
+                    <div class="ms-2 me-auto">
+                    <div class="fw-bold">
+                        {{ etape.nom }}
+                        <!-- <i class="bi bi-zoom-in icone_detail text-primary"></i> -->
+                    </div>
+                    {{ etape.critere }}
+                    </div>
+                    {% if etape.nombre_lignes_supprimees %}
+                        <span class="badge bg-danger rounded-pill">- {{ etape.nombre_lignes_supprimees }}</span>
+                    {% elif forloop.counter == 5 %}
                     {% else %}
-                        <b>{{ element }} :</b>
-                        <ul>
-                            {% for detail in etape.details %}
-                                <li>
-                                    <b>{{ detail.stock_code }}</b>
-                                    <p>
-                                        {% for elements_detail in detail %}
-                                            {% if elements_detail != "stock_code" %}
-                                                <p>
-                                                    <b>{{ elements_detail }} :</b> {{ detail | get_key:elements_detail }}
-                                                </p>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </p>
-                                </li>
-                            {% endfor %}
-                        </ul>
+                        <span class="badge bg-success rounded-pill">0</span>
                     {% endif %}
-                </p>
+                </li>
             {% endfor %}
-        {% endfor %}
+        </ol>
 
         {% if feedback %}
-            <hr>
-            <b>Nombre d'enregistrements restants :</b> {{ feedback.nombre_enregistrements_restants }}
+            <!-- <hr>
+            <b>Nombre d'enregistrements restants :</b> {{ feedback.nombre_enregistrements_restants }} -->
+        {% endif %}
+        {% if import_bdd %}<hr>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="mt-2">
+                    <button id="btn_import_bdd" class="btn btn-primary" type="submit" name="import_bdd">
+                        Importer en base de données
+                        <i class="bi bi-database-down" style="font-weight: bold; font-size: 24px; color: white;"></i>
+                    </button>
+                </div>
+            </form>
         {% endif %}
     </div>
 {% endblock %}

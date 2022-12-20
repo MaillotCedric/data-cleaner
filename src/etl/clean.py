@@ -13,10 +13,10 @@ def get_feedback_doublons(df, subset, feedback):
 
     feedback["etapes"].append({
         "nom": "suppression des doublons",
-        "critère": "InvoiceNo et StockCode identiques",
-        "nombre lignes supprimées": nombre_lignes,
-        "nombre lignes après suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
-        "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+        "critere": "InvoiceNo et StockCode identiques",
+        "nombre_lignes_supprimees": nombre_lignes,
+        "nombre_lignes_apres_suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
+        "pourcentage_global": get_pourcentage(nombre_lignes, feedback)
     })
 
 def get_feedback_avoirs(df, feedback):
@@ -24,15 +24,15 @@ def get_feedback_avoirs(df, feedback):
 
     feedback["etapes"].append({
         "nom": "suppression des avoirs",
-        "critère": "Quantity <= 0",
-        "nombre lignes supprimées": nombre_lignes,
-        "nombre lignes après suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
-        "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+        "critere": "Quantity <= 0",
+        "nombre_lignes_supprimees": nombre_lignes,
+        "nombre_lignes_apres_suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
+        "pourcentage_global": get_pourcentage(nombre_lignes, feedback)
     })
 
 def get_details_feedback_stock_code(df, stock_codes_invalides, feedback):
     details_stock_code = {
-        "nombre lignes": 0,
+        "nombre_lignes": 0,
         "feedback": []
     }
 
@@ -41,25 +41,25 @@ def get_details_feedback_stock_code(df, stock_codes_invalides, feedback):
 
         details_stock_code["feedback"].append({
             "stock_code": stock_code,
-            "nombre lignes supprimées": nombre_lignes,
-            "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+            "nombre_lignes_supprimees": nombre_lignes,
+            "pourcentage_global": get_pourcentage(nombre_lignes, feedback)
         })
 
-        details_stock_code["nombre lignes"] += nombre_lignes
+        details_stock_code["nombre_lignes"] += nombre_lignes
 
     return details_stock_code
 
 def get_feedback_stock_codes(df, stock_codes_invalides, feedback):
     details = get_details_feedback_stock_code(df, stock_codes_invalides, feedback)
-    nombre_lignes = details["nombre lignes"]
+    nombre_lignes = details["nombre_lignes"]
 
     feedback["etapes"].append({
         "nom": "suppression des ventes avec des stock codes invalides",
-        "critère": "StockCode invalides : ['S', 'POST', 'M', 'DOT', 'D', 'BANK CHARGES', 'AMAZONFEE']",
+        "critere": "StockCode invalides : ['S', 'POST', 'M', 'DOT', 'D', 'BANK CHARGES', 'AMAZONFEE']",
         "details": details["feedback"],
-        "nombre lignes supprimées": nombre_lignes,
-        "nombre lignes après suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
-        "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+        "nombre_lignes_supprimees": nombre_lignes,
+        "nombre_lignes_apres_suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
+        "pourcentage_global": get_pourcentage(nombre_lignes, feedback)
     })
 
 def get_feedback_vouchers(df, feedback):
@@ -67,10 +67,10 @@ def get_feedback_vouchers(df, feedback):
 
     feedback["etapes"].append({
         "nom": "suppression des vouchers",
-        "critère": "StockCode commence par 'gift_'",
-        "nombre lignes supprimées": nombre_lignes,
-        "nombre lignes après suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
-        "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+        "critere": "StockCode commence par 'gift_'",
+        "nombre_lignes_supprimees": nombre_lignes,
+        "nombre_lignes_apres_suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
+        "pourcentage_global": get_pourcentage(nombre_lignes, feedback)
     })
 
 def get_feedback_pays(df, liste_pays, feedback):
@@ -78,10 +78,10 @@ def get_feedback_pays(df, liste_pays, feedback):
 
     feedback["etapes"].append({
         "nom": "regroupement des pays invalides sous un label `autre`",
-        "critère": "Country ne faisant pas partie de la liste des pays valides",
+        "critere": "Country ne faisant pas partie de la liste des pays valides",
         "nombre lignes modifiées": nombre_lignes,
         "nombre lignes après modification": df.shape[0],
-        "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+        "pourcentage_global": get_pourcentage(nombre_lignes, feedback)
     })
 
 def get_feedback_dates(df, feedback):
@@ -89,10 +89,10 @@ def get_feedback_dates(df, feedback):
 
     feedback["etapes"].append({
         "nom": "suppression des ventes ayant un format de date invalide",
-        "critère": "InvoiceDate invalide",
-        "nombre lignes supprimées": nombre_lignes,
-        "nombre lignes après suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
-        "pourcentage global": get_pourcentage(nombre_lignes, feedback)
+        "critere": "InvoiceDate invalide",
+        "nombre_lignes_supprimees": nombre_lignes,
+        "nombre_lignes_apres_suppression": get_nb_lignes_apres_supp(df, nombre_lignes),
+        "pourcentage_global": get_pourcentage(nombre_lignes, feedback)
     })
 
 def nettoyage(fichier):
