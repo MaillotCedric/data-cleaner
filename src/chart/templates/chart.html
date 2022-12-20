@@ -19,9 +19,14 @@
             </div>
         </div>
         <div class="container text-center">
+            <div class="d-flex mb-2">
+                <button id="btn_ventes_produits" class="btn btn-primary me-2">ventes/produits</button>
+                <button id="btn_ventes_pays" class="btn btn-primary">ventes/pays</button>
+            </div>
             <div class="row">
                 <div class="col-8 border border-primary rounded-1 me-3">
                     <div id="chart_container_top_produits" class="chart_container"></div>
+                    <div id="chart_container_top_pays" class="chart_container d-none"></div>
                 </div>
                 <div id="container_filtres" class="col border border-primary rounded-1 p-2">
                     <div id="filtres_header">
@@ -45,16 +50,17 @@
                     </div>
                     <hr class="m-0">
                     <div id="filtres_footer" class="mt-2">
-                        <button id="btn_filtrer" class="btn btn-primary">
+                        <button id="btn_filtrer" class="btn btn-primary" name="produits">
                             Filtrer
                             <i class="bi bi-funnel-fill"></i>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="row d-none">
+            <div id="container_pays_produits" class="row mt-2 d-none">
                 <div class="col border border-primary rounded-1">
-                    1 of 1
+                    <div id="feedback_pays"><b>Aucun pays selectionné</b></div>
+                    <div id="chart_container_top_pays_produits" class="chart_container"></div>
                 </div>
             </div>
         </div>

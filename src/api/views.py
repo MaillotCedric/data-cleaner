@@ -54,7 +54,9 @@ def get_sales_by_products(request):
 @api_view(["GET"])
 def get_sales_by_countries(request):
     top = request.query_params.get("top", None)
+    year = request.query_params.get("year", None)
     limite = "LIMIT {}".format(top) if top else ""
+    where = "WHERE extract(year from invoice_date) = {}".format(year) if year else ""
 
     requeteSQL = """
         SELECT (1) AS id, country, COUNT(*) AS nb_ventes
@@ -63,10 +65,11 @@ def get_sales_by_countries(request):
                     ON dc.invoice_no_id = co.invoice_no
                 INNER JOIN pays AS pa
                     ON co.country_id = pa.country
+            {}
             GROUP BY (1), country
             ORDER BY nb_ventes DESC
             {};
-    """.format(limite)
+    """.format(where, limite)
 
     sales_by_countries = User.objects.raw(requeteSQL)
     serializer = SalesByCountriesSerializer(sales_by_countries, many=True)

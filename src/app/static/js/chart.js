@@ -1,10 +1,13 @@
 let background_colors = ["#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", "#A65628", "#F781BF"];
+let chart_produits = null;
+let chart_pays_produits = null;
+let my_chart = null;
 
 function draw_chart_produits(produits) {
     let ctx = document.getElementById("chart_top_produits");
     let nb_produits = produits.length;
 
-    new Chart(ctx, {
+    chart_produits = new Chart(ctx, {
         type: 'bar',
         data: {
             datasets: [{
@@ -64,7 +67,7 @@ function draw_chart_pays_produits(produits) {
     let ctx_pays_produits = document.getElementById("chart_top_pays_produits");
     let pays_selectionne = produits[0].country;
 
-    new Chart(ctx_pays_produits, {
+    chart_pays_produits = new Chart(ctx_pays_produits, {
         type: 'bar',
         data: {
             datasets: [{
@@ -126,8 +129,9 @@ function click_on_bar(pointer) {
 
 function draw_chart_pays(pays) {
     let ctx_pays = document.getElementById("chart_top_pays");
+    let nb_pays = pays.length;
 
-    let my_chart = new Chart(ctx_pays, {
+    my_chart = new Chart(ctx_pays, {
         type: 'bar',
         data: {
             datasets: [{
@@ -171,7 +175,7 @@ function draw_chart_pays(pays) {
                 },
                 title: {
                     display: true,
-                    text: "Top 10 des pays de livraison",
+                    text: "Top "+ nb_pays +" des pays de livraison",
                     position: "top",
                     font: {
                         size: 16,
@@ -190,6 +194,7 @@ function draw_chart_pays(pays) {
                     let index = pointer[0].index;
                     let pays_selectionne = pays[index].country; 
 
+                    ajouter_classe("d-none", document.getElementById("feedback_pays"));
                     ajax_call("GET", "../api/sales_of?pays="+ pays_selectionne +"&top=10&format=json", donnees={}, success_callback=update_chart_pays_produits, error_callback=afficher_error);
                 };
             }
@@ -335,6 +340,13 @@ function get_requete_produits(values_selects) {
     return requete_produits;
 };
 
+function get_requete_pays(values_selects) {
+    let params = get_params(values_selects);
+    let requete_produits = "../api/sales_by_countries" + params;
+
+    return requete_produits;
+};
+
 function enlever_classe(nom_classe, element_html) {
     element_html.classList.remove(nom_classe);
 };
@@ -348,12 +360,60 @@ function apply_filters_produits(json) {
     update_chart_produits(json);
 };
 
+function apply_filters_pays(json) {
+    ajouter_classe("d-none", loading_modal);
+    update_chart_pays(json);
+};
+
+function reset_selects() {
+    let selects = document.getElementsByClassName("form-select");
+    
+    for (let index = 0; index < selects.length; index++) {
+        let select = selects[index];
+        
+        select.value = "";
+    };
+};
+
 $(document).on('click', "#btn_filtrer", function(event){
     let values_selects = get_values_select();
-    let requete_produits = get_requete_produits(values_selects);
+    let requete = event.currentTarget.name === "produits" ? get_requete_produits(values_selects) : get_requete_pays(values_selects);
     let div_loading = document.getElementById("loading_message");
 
     enlever_classe("d-none", loading_modal);
     div_loading.innerHTML = "Veuillez patienter ...";
-    ajax_call("GET", requete_produits, donnees={}, success_callback=apply_filters_produits, error_callback=afficher_error);
+    // reset_selects();
+    if (event.currentTarget.name === "produits") {
+        ajax_call("GET", requete, donnees={}, success_callback=apply_filters_produits, error_callback=afficher_error);
+    } else {
+        ajax_call("GET", requete, donnees={}, success_callback=apply_filters_pays, error_callback=afficher_error);
+    };
+});
+
+$(document).on('click', "#btn_ventes_pays", function(event){
+    if (chart_produits) {
+        chart_produits.destroy();
+    };
+    if (chart_pays_produits) {
+        chart_pays_produits.destroy();
+    };
+    reset_selects();
+    ajouter_classe("d-none", document.getElementById("chart_container_top_produits"));
+    enlever_classe("d-none", document.getElementById("container_pays_produits"));
+    enlever_classe("d-none", document.getElementById("chart_container_top_pays"));
+    enlever_classe("d-none", document.getElementById("feedback_pays"));
+    document.getElementById("btn_filtrer").name = "pays";
+    ajax_call("GET", "../api/sales_by_countries?top=10&format=json", donnees={}, success_callback=update_chart_pays, error_callback=afficher_error);
+});
+
+$(document).on('click', "#btn_ventes_produits", function(event){
+    if (my_chart) {
+        my_chart.destroy();
+    };
+    reset_selects();
+    ajouter_classe("d-none", document.getElementById("chart_container_top_pays"));
+    enlever_classe("d-none", document.getElementById("chart_container_top_produits"));
+    ajouter_classe("d-none", document.getElementById("container_pays_produits"));
+    document.getElementById("btn_filtrer").name = "produits";
+    ajax_call("GET", "../api/sales_by_products?top=10&format=json", donnees={}, success_callback=update_chart_produits, error_callback=afficher_error);
 });
