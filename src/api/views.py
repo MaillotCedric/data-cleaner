@@ -31,19 +31,22 @@ def add_utilisateur(request):
 @api_view(["GET"])
 def get_sales_by_products(request):
     top = request.query_params.get("top", None)
+    year = request.query_params.get("year", None)
     limite = "LIMIT {}".format(top) if top else ""
+    where = "WHERE extract(year from invoice_date) = {}".format(year) if year else ""
 
     requeteSQL = """
         SELECT (1) AS id, stock_code, COUNT(*) AS nb_ventes
             FROM details_commande AS dc
                 INNER JOIN produit AS pr
                     ON dc.stock_code_id = pr.stock_code
+            {}
             GROUP BY (1), stock_code
             ORDER BY nb_ventes DESC
             {};
-    """.format(limite)
+    """.format(where, limite)
 
-    sales_by_products = User.objects.raw(requeteSQL)
+    sales_by_products = Produit.objects.raw(requeteSQL)
     serializer = SalesByProductsSerializer(sales_by_products, many=True)
 
     return Response(serializer.data)

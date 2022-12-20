@@ -2,6 +2,7 @@ let background_colors = ["#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", 
 
 function draw_chart_produits(produits) {
     let ctx = document.getElementById("chart_top_produits");
+    let nb_produits = produits.length;
 
     new Chart(ctx, {
         type: 'bar',
@@ -46,7 +47,7 @@ function draw_chart_produits(produits) {
                 },
                 title: {
                     display: true,
-                    text: "Top 10 des produits les plus vendus",
+                    text: "Top "+ nb_produits +" des produits les plus vendus",
                     position: "top",
                     font: {
                         size: 16,
@@ -292,3 +293,67 @@ $.ajax({
 //     event.preventDefault();
 //     ajax_call("GET", "../api/sales_of?pays="+ pays +"&top=3&format=json", donnees={}, success_callback=afficher_success, error_callback=afficher_error);
 // });
+
+function get_values_select() {
+    let values = [];
+    let selects = document.getElementsByClassName("form-select");
+    
+    for (let index = 0; index < selects.length; index++) {
+        let select = selects[index];
+        let name = select.name;
+        let value = select.options[select.selectedIndex].value;
+
+        values.push({
+            "name": name,
+            "value": value
+        });
+    };
+
+    return values;
+};
+
+function get_params(values_selects) {
+    params = "?";
+
+    values_selects.forEach(value_select => {
+        let name = value_select.name;
+        let value = value_select.value;
+
+        if (value !== "") {
+            params += name + "=" + value + "&";
+        };
+    });
+    params === "?" ? params += "&format=json" : params += "format=json";
+
+    return params;
+};
+
+function get_requete_produits(values_selects) {
+    let params = get_params(values_selects);
+    let requete_produits = "../api/sales_by_products" + params;
+
+    return requete_produits;
+};
+
+function enlever_classe(nom_classe, element_html) {
+    element_html.classList.remove(nom_classe);
+};
+
+function ajouter_classe(nom_classe, element_html) {
+    element_html.classList.add(nom_classe);
+};
+
+function apply_filters_produits(json) {
+    ajouter_classe("d-none", loading_modal);
+    update_chart_produits(json);
+};
+
+$(document).on('click', "#btn_filtrer", function(event){
+    let values_selects = get_values_select();
+    let requete_produits = get_requete_produits(values_selects);
+    let div_loading = document.getElementById("loading_message");
+
+    enlever_classe("d-none", loading_modal);
+    div_loading.innerHTML = "Veuillez patienter ...";
+    ajax_call("GET", requete_produits, donnees={}, success_callback=apply_filters_produits, error_callback=afficher_error);
+});

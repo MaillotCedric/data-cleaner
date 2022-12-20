@@ -8,6 +8,16 @@
 
 {% block contenu %}
     <div class="container_contenu">
+        <div id="loading_modal" class="modal-backdrop fade show d-none">
+            <div class="position-relative">
+                <div class="text-center position-absolute top-50 start-50 translate-middle">
+                    <div id="loading_message"></div>
+                    <div class="spinner-border text-light" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container text-center">
             <div class="row">
                 <div class="col-8 border border-primary rounded-1 me-3">
@@ -22,15 +32,15 @@
                     </div>
                     <hr class="m-0">
                     <div id="filtres_content" class="m-2">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Top</option>
+                        <select class="form-select" aria-label="Default select example" name="top">
+                            <option value="" selected>Top</option>
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
                         </select>
 
-                        <select id="select_years" class="form-select mt-2" aria-label="Default select example">
-                            <option selected>Année</option>
+                        <select id="select_years" class="form-select mt-2" aria-label="Default select example" name="year">
+                            <option value="" selected>Année</option>
                         </select>
                     </div>
                     <hr class="m-0">
