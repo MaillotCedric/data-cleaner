@@ -114,10 +114,10 @@ def get_countries(request):
 @api_view(["GET"])
 def get_years(request):
     requeteSQL = """
-        SELECT (1) AS id, EXTRACT(YEAR FROM invoice_date) AS years
+        SELECT (1) AS id, EXTRACT(YEAR FROM invoice_date) AS year
             FROM details_commande
-            GROUP BY years
-            ORDER BY years DESC;
+            GROUP BY year
+            ORDER BY year DESC;
     """
 
     years = Details_commande.objects.raw(requeteSQL)

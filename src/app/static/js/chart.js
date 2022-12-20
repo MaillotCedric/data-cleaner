@@ -245,6 +245,24 @@ ajax_call("GET", "../api/sales_by_products?top=10&format=json", donnees={}, succ
 // afficher le top 10 des pays de livraison
 // ajax_call("GET", "../api/sales_by_countries?top=10&format=json", donnees={}, success_callback=update_chart_pays, error_callback=afficher_error);
 
+// Populate select with years
+$.ajax({
+    type: "GET",
+    url: "../api/years?format=json",
+    success: function(json) {
+        let select = document.getElementById("select_years");
+
+        json.forEach(element => {
+            let year = element.year;
+
+            select.innerHTML = select.innerHTML + `<option value="`+ year +`">`+ year +`</option>`;
+        });
+    },
+    error: function(erreur) {
+        afficher_error(erreur)
+    }
+});
+
 // Populate select with countries names
 // $.ajax({
 //     type: "GET",

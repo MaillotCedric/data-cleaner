@@ -44,8 +44,8 @@ class CountriesSerializer(serializers.ModelSerializer):
         fields = ["country"]
 
 class YearsSerializer(serializers.ModelSerializer):
-    years = serializers.IntegerField()
+    year = serializers.IntegerField()
 
     class Meta:
         model = Details_commande
-        fields = ["years"]
+        fields = ["year"]
