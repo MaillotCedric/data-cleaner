@@ -106,7 +106,21 @@ def get_countries(request):
             ORDER BY country ASC;
     """
 
-    countries = User.objects.raw(requeteSQL)
+    countries = Pays.objects.raw(requeteSQL)
     serializer = CountriesSerializer(countries, many=True)
+
+    return Response(serializer.data)
+
+@api_view(["GET"])
+def get_years(request):
+    requeteSQL = """
+        SELECT (1) AS id, EXTRACT(YEAR FROM invoice_date) AS years
+            FROM details_commande
+            GROUP BY years
+            ORDER BY years DESC;
+    """
+
+    years = Details_commande.objects.raw(requeteSQL)
+    serializer = YearsSerializer(years, many=True)
 
     return Response(serializer.data)
