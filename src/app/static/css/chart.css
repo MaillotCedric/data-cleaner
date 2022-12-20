@@ -1,6 +1,38 @@
 .chart_container {
-    display: inline-block;
-    position: relative;
-    height: 300px;
-    width: 500px;
+    align-items: center;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.chart_container > div {
+    width: 100%;
+}
+
+.container_contenu {
+    height: 100%;
+}
+
+.container_contenu > div {
+    height: 100%;
+}
+
+.container_contenu > div > div.row {
+    height: 75%;
+}
+
+#filtres_header {
+    height: 10%;
+}
+
+#filtres_content {
+    height: 75%;
+}
+
+#filtres_footer {
+    height: 15%;
+}
+
+#btn_filtrer {
+    width: 70%;
 }

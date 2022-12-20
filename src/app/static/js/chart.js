@@ -201,7 +201,11 @@ function aucune_donnee(json) {
 };
 
 function update_chart_container(container, html) {
-    container.innerHTML = html;
+    container.innerHTML = `
+        <div>
+        `+ html +`
+        </div>
+    `;
 };
 
 function update_chart_produits(json) {
@@ -239,7 +243,7 @@ function update_chart_pays_produits(json) {
 ajax_call("GET", "../api/sales_by_products?top=10&format=json", donnees={}, success_callback=update_chart_produits, error_callback=afficher_error);
 
 // afficher le top 10 des pays de livraison
-ajax_call("GET", "../api/sales_by_countries?top=10&format=json", donnees={}, success_callback=update_chart_pays, error_callback=afficher_error);
+// ajax_call("GET", "../api/sales_by_countries?top=10&format=json", donnees={}, success_callback=update_chart_pays, error_callback=afficher_error);
 
 // Populate select with countries names
 // $.ajax({

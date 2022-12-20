@@ -8,11 +8,53 @@
 
 {% block contenu %}
     <div class="container_contenu">
-        <div id="chart_container_top_produits" class="chart_container"></div>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-8 border border-primary rounded-1 me-3">
+                    <div id="chart_container_top_produits" class="chart_container"></div>
+                </div>
+                <div id="container_filtres" class="col border border-primary rounded-1 p-2">
+                    <div id="filtres_header">
+                        <b>
+                            Filtres
+                            <i class="bi bi-funnel-fill"></i>
+                        </b>
+                    </div>
+                    <hr class="m-0">
+                    <div id="filtres_content" class="m-2">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Top</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                        </select>
+
+                        <select class="form-select mt-2" aria-label="Default select example">
+                            <option selected>Année</option>
+                            <option value="2010">2010</option>
+                            <option value="2011">2011</option>
+                        </select>
+                    </div>
+                    <hr class="m-0">
+                    <div id="filtres_footer" class="mt-2">
+                        <button id="btn_filtrer" class="btn btn-primary">
+                            Filtrer
+                            <i class="bi bi-funnel-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-none">
+                <div class="col border border-primary rounded-1">
+                    1 of 1
+                </div>
+            </div>
+        </div>
+        <!-- <div id="chart_container_top_produits" class="chart_container"></div>
         <div id="chart_container_top_pays" class="chart_container"></div>
         <div id="chart_container_top_pays_produits" class="chart_container">
             Aucun pays selectionné
-        </div>
+        </div> -->
         <!-- <form id="btn_ventes_produits" method="GET">
             <button type="submit">Top 3 des produits vendus</button>
         </form> -->
